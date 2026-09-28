@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div id="login" hidden><form id="lf"><h2>Admin login</h2><p>Demo login: admin / admin123</p><label for="lu">Username</label><input id="lu" autocomplete="username"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password"><div class="err" id="lerr" role="alert"></div><div class="foot" style="justify-content:space-between;align-items:center"><button type="button" class="btn sm" id="forgot">Forgot password?</button><button class="btn primary" type="submit">Sign in</button></div>
+<p style="margin:14px 0 0;font-size:13px;color:var(--mute)">New here? <button type="button" class="btn sm" id="toReg">Create account</button></p></form>
+<form id="gf" hidden><h2>Create account</h2><p>Register a new admin account.</p>
+<label for="gu">Username</label><input id="gu" autocomplete="username">
+<label for="gp">Password (min 6 characters)</label><input id="gp" type="password" autocomplete="new-password">
+<label for="gc">Confirm password</label><input id="gc" type="password" autocomplete="new-password">
+<div class="err" id="gerr" role="alert"></div><div class="foot"><button type="button" class="btn" id="gback">Back to login</button><button class="btn primary" type="submit">Create account</button></div></form>
+<form id="rf" hidden><h2>Reset password</h2><p id="rmsg">Enter your username to get a reset code.</p>
+<label for="ru">Username</label><input id="ru" autocomplete="username">
+<div id="rstep2" hidden><label for="rc">6-digit code</label><input id="rc" inputmode="numeric" maxlength="6"><label for="rn">New password (min 6 characters)</label><input id="rn" type="password" autocomplete="new-password"></div>
+<div class="err" id="rerr" role="alert"></div><div class="foot"><button type="button" class="btn" id="rback">Back to login</button><button class="btn primary" type="submit" id="rbtn">Send reset code</button></div></form></div>
+<div class="wrap">
+<header>
+  <h1>Student Management System<small>Add, search and track students, marks and attendance.</small></h1>
+  <div class="actions">
+    <button class="btn" id="theme" aria-label="Toggle theme">Theme</button>
+    <button class="btn" id="attBtn">Mark attendance</button>
+    <button class="btn" id="export">Export CSV</button>
+    <button class="btn" id="logout">Log out</button>
+    <button class="btn primary" id="add">Add student</button>
+  </div>
+</header>
+
+<section class="stats" aria-label="Summary" id="stats"></section>
+
+<div class="bar">
+  <input id="q" type="search" placeholder="Search by name, roll no or email" aria-label="Search students">
+  <select id="course" aria-label="Filter by course"></select>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr id="head"></tr></thead>
+    <tbody id="body"></tbody>
+  </table>
+  <div class="empty" id="empty" hidden>No students match. Clear the search or add a new student.</div>
+</div>
+<p class="count" id="count"></p>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="form" novalidate>
+    <h2 id="dlgTitle">Add student</h2>
+    <label for="f-name">Full name</label><input id="f-name" required>
+    <div class="row">
+      <div><label for="f-roll">Roll number</label><input id="f-roll" required></div>
+      <div><label for="f-course">Course</label>
+        <select id="f-course"><option>B.Tech IT</option><option>B.Tech CSE</option><option>Diploma IT</option><option>BCA</option><option>MCA</option></select></div>
+    </div>
+    <label for="f-email">Email</label><input id="f-email" type="email" required>
+    <div class="row">
+      <div><label for="f-phone">Phone (optional)</label><input id="f-phone" inputmode="numeric" maxlength="10"></div>
+      <div><label for="f-year">Joining year</label><input id="f-year" type="number" min="2015" max="2035" value="2023" required></div>
+    </div>
+    <div class="row">
+      <div><label for="f-marks">Marks (0-100)</label><input id="f-marks" type="number" min="0" max="100" required></div>
+      <div><label for="f-att">Attendance % (0-100)</label><input id="f-att" type="number" min="0" max="100" required></div>
+    </div>
+    <div class="row">
+      <div><label for="f-fee">Total fee (₹)</label><input id="f-fee" type="number" min="0" value="60000"></div>
+      <div><label for="f-paid">Fee paid (₹)</label><input id="f-paid" type="number" min="0" value="0"></div>
+    </div>
+    <label for="f-photo">Photo (optional)</label><input id="f-photo" type="file" accept="image/*">
+    <div class="err" id="err" role="alert"></div>
+    <div class="foot"><button type="button" class="btn" id="cancel">Cancel</button><button type="submit" class="btn primary" id="save">Save student</button></div>
+  </form>
+</dialog>
+<dialog id="idDlg"><div class="idc" id="card"></div><div class="foot"><button type="button" class="btn" id="idClose">Close</button><button type="button" class="btn primary" id="idPrint">Print ID card</button></div></dialog>
+<dialog id="attDlg"><h2>Mark attendance</h2><label for="adate">Date</label><input id="adate" type="date"><div id="alist"></div><div class="foot"><button type="button" class="btn" id="aclose">Close</button><button type="button" class="btn primary" id="asave">Save attendance</button></div></dialog>
+<div id="toast" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
